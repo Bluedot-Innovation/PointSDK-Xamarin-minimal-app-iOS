@@ -61,7 +61,7 @@ namespace BDPointiOSXamarinDemo
              */
 			if (locationManager.AuthenticationState != BDAuthenticationState.Authenticated)
 			{
-				locationManager.AuthenticateWithApiKey("", "", "");
+                locationManager.AuthenticateWithApiKey("");
 			}
 			else
 			{
@@ -105,7 +105,7 @@ namespace BDPointiOSXamarinDemo
 			updateLog("Checked out from beacon");
 		}
 
-		public void WillAuthenticateWithUsername(string username, string apiKey, string packageName)
+        public void WillAuthenticateWithApiKey(string apiKey)
 		{
 			updateLog("Authenticating..");
 		}
