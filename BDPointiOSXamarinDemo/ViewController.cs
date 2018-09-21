@@ -1,6 +1,6 @@
 ﻿using System;
 using Foundation;
-using libBDPointSDKiphoneos;
+using PointSDK.iOS;
 using UIKit;
 
 namespace BDPointiOSXamarinDemo
@@ -19,7 +19,7 @@ namespace BDPointiOSXamarinDemo
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
             updateLog("ViewDidload");
-			locationManager = BDLocationManager.Instance();
+			locationManager = BDLocationManager.Instance;
 
 			locationManager.SessionDelegate = this;
 			locationManager.LocationDelegate = this;
@@ -61,7 +61,7 @@ namespace BDPointiOSXamarinDemo
              */
 			if (locationManager.AuthenticationState != BDAuthenticationState.Authenticated)
 			{
-                locationManager.AuthenticateWithApiKey("");
+                locationManager.AuthenticateWithApiKey("dee11930-ebff-11e5-8e27-bc305bf60831");
 			}
 			else
 			{
