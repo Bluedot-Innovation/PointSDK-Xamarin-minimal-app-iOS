@@ -1,14 +1,16 @@
 ﻿using Foundation;
 using UIKit;
 using System;
+using PointSDK.iOS;
+using CoreLocation;
 
 namespace BDPointiOSXamarinDemo
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the
 	// User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
 	[Register("AppDelegate")]
-	public class AppDelegate : UIApplicationDelegate
-	{
+	public class AppDelegate : UIApplicationDelegate, IBDPSessionDelegate, IBDPLocationDelegate
+    {
         // class-level declarations
 		
         public override UIWindow Window
@@ -17,13 +19,17 @@ namespace BDPointiOSXamarinDemo
 			set;
 		}
 
-		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+        #region UIApplicationDelegate
+        public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 
-			// Override point for customization after application launch.
-			// If not required for your application you can safely delete this method
+            // Override point for customization after application launch.
+            // If not required for your application you can safely delete this method
 
-			return true;
+            BDLocationManager.Instance.SessionDelegate = this;
+            BDLocationManager.Instance.LocationDelegate = this;
+
+            return true;
 		}
 
 		public override void OnResignActivation(UIApplication application)
@@ -57,7 +63,133 @@ namespace BDPointiOSXamarinDemo
 		{
 			// Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
 		}
+        #endregion
 
-	}
+        #region IBDPSessionDelegate
+        public void WillAuthenticateWithApiKey(string apiKey)
+        {
+            updateLog("Authenticating..");
+        }
+
+        public void AuthenticationWasSuccessful()
+        {
+            updateLog("Authentication was successful");
+            updateAuthenticationStatus("Logout");
+        }
+
+        public void AuthenticationWasDeniedWithReason(string reason)
+        {
+            updateLog("Authentication denied");
+            updateAuthenticationStatus("Authenticate");
+        }
+
+        public void AuthenticationFailedWithError(NSError error)
+        {
+            updateLog("Authentication failed");
+            updateAuthenticationStatus("Authenticate");
+        }
+
+        public void DidEndSession()
+        {
+            updateLog("Session ended");
+            updateAuthenticationStatus("Authenticate");
+        }
+
+        public void DidEndSessionWithError(NSError error)
+        {
+            updateLog("Session ended with error");
+            updateAuthenticationStatus("Authenticate");
+        }
+        #endregion
+
+        #region IBDPLocationDelegate
+        public void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationInfo location, bool willCheckOut, NSDictionary customData)
+        {
+            updateLog("Checked into fence");
+        }
+
+        public void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, BDLocationInfo locationInfo, CLProximity proximity, bool willCheckOut, NSDictionary customData)
+        {
+            updateLog("Checked into beacon");
+        }
+
+        public void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, bool willCheckOut, NSDictionary customData)
+        {
+            updateLog("Checked into beacon");
+        }
+
+        public void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationCoordinate2D coordinate, NSDate date, bool willCheckOut, NSDictionary customData)
+        {
+            updateLog("Checked into fence");
+        }
+
+        public void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
+        {
+            updateLog("Checked out from beacon");
+        }
+
+        public void DidCheckOutFromFence(BDFenceInfo fence, BDZoneInfo zoneInfo, NSDate date, nuint checkedInDuration, NSDictionary customData)
+        {
+            updateLog("Checked out from fence");
+        }
+
+        public void DidStartRequiringUserInterventionForBluetooth()
+        {
+
+        }
+
+        public void DidStartRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
+        {
+
+        }
+
+        public void DidStartRequiringUserInterventionForPowerMode()
+        {
+
+        }
+
+        public void DidStopRequiringUserInterventionForBluetooth()
+        {
+
+        }
+
+        public void DidStopRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
+        {
+
+        }
+
+        public void DidStopRequiringUserInterventionForPowerMode()
+        {
+
+        }
+
+        public void DidUpdateZoneInfo(NSSet zoneInfos)
+        {
+            updateLog("Zone Info updated");
+        }
+        #endregion
+
+        private void updateLog(String s)
+        {
+            var viewController = Window.RootViewController as ViewController;
+            if (viewController == null)
+            {
+                return;
+            }
+
+            viewController.StatusLog.Text += "\n" + s;
+        }
+
+        private void updateAuthenticationStatus(String s)
+        {
+            var viewController = Window.RootViewController as ViewController;
+            if (viewController == null)
+            {
+                return;
+            }
+
+            viewController.Authenticate.SetTitle(s, UIControlState.Normal);
+        }
+    }
 }
 

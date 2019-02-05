@@ -15,11 +15,11 @@ namespace BDPointiOSXamarinDemo
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton Authenticate { get; set; }
+        public UIKit.UIButton Authenticate { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITextView StatusLog { get; set; }
+        public UIKit.UITextView StatusLog { get; set; }
 
         void ReleaseDesignerOutlets ()
         {

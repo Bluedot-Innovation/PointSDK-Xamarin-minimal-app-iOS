@@ -5,7 +5,7 @@ using UIKit;
 
 namespace BDPointiOSXamarinDemo
 {
-    public partial class ViewController : UIViewController, IBDPSessionDelegate, IBDPLocationDelegate
+    public partial class ViewController : UIViewController
     {
         BDLocationManager locationManager;
 
@@ -20,9 +20,6 @@ namespace BDPointiOSXamarinDemo
             // Perform any additional setup after loading the view, typically from a nib.
             updateLog("ViewDidload");
 			locationManager = BDLocationManager.Instance;
-
-			locationManager.SessionDelegate = this;
-			locationManager.LocationDelegate = this;
 
             Authenticate.TouchUpInside += (o, s) => {
                 if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
@@ -80,70 +77,5 @@ namespace BDPointiOSXamarinDemo
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
-
-		[Export("didCheckIntoFence:inZone:atCoordinate:onDate:willCheckOut:withCustomData:")]
-		public void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationCoordinate2D coordinate, NSDate date, bool willCheckOut, NSDictionary customData)
-		{
-			updateLog("Checked into fence");
-		}
-
-		[Export("didCheckOutFromFence:inZone:onDate:withDuration:withCustomData:")]
-		public void DidCheckOutFromFence(BDFenceInfo fence, BDZoneInfo zoneInfo, NSDate date, nuint checkedInDuration, NSDictionary customData)
-		{
-			updateLog("Checked out from fence");
-		}
-
-		[Export("didCheckIntoBeacon:inZone:withProximity:onDate:willCheckOut:withCustomData:")]
-		public void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CoreLocation.CLProximity proximity, NSDate date, bool willCheckOut, NSDictionary customData)
-		{
-			updateLog("Checked into beacon");
-		}
-
-		[Export("didCheckOutFromBeacon:inZone:withProximity:onDate:withDuration:withCustomData:")]
-		public void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CoreLocation.CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
-		{
-			updateLog("Checked out from beacon");
-		}
-
-        public void WillAuthenticateWithApiKey(string apiKey)
-		{
-			updateLog("Authenticating..");
-		}
-
-		public void AuthenticationWasSuccessful()
-		{
-			updateLog("Authentication was successful");
-            Authenticate.SetTitle("Logout", UIControlState.Normal);
-		}
-
-		public void AuthenticationWasDeniedWithReason(string reason)
-		{
-			updateLog("Authentication denied");
-            Authenticate.SetTitle("Authenticate", UIControlState.Normal);
-		}
-
-		public void AuthenticationFailedWithError(NSError error)
-		{
-			updateLog("Authentication failed");
-			Authenticate.SetTitle("Authenticate", UIControlState.Normal);
-		}
-
-		public void DidEndSession()
-		{
-			updateLog("Session ended");
-			Authenticate.SetTitle("Authenticate", UIControlState.Normal);
-		}
-
-		public void DidEndSessionWithError(NSError error)
-		{
-			updateLog("Session ended with error");
-			Authenticate.SetTitle("Authenticate", UIControlState.Normal);
-		}
-
-		[Export("didUpdateZoneInfo:")]
-		public void DidUpdateZoneInfo(NSSet zoneInfos)
-		{
-			updateLog("Zone Info updated");
-		}
     }
 }
