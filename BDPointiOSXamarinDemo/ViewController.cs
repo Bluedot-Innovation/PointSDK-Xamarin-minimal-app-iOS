@@ -1,5 +1,4 @@
 ﻿using System;
-using Foundation;
 using PointSDK.iOS;
 using UIKit;
 
@@ -19,7 +18,7 @@ namespace BDPointiOSXamarinDemo
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
             updateLog("ViewDidload");
-			locationManager = BDLocationManager.Instance;
+            locationManager = BDLocationManager.Instance;
 
             Authenticate.TouchUpInside += (o, s) => {
                 if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
@@ -37,11 +36,11 @@ namespace BDPointiOSXamarinDemo
 		public void Signout()
 		{
 			if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
-			{
+            {
 				locationManager.LogOut();
 			}
 			else
-			{
+            {
 				updateLog("Already Logged out");
 			}
 		}
@@ -58,17 +57,17 @@ namespace BDPointiOSXamarinDemo
              */
 			if (locationManager.AuthenticationState != BDAuthenticationState.Authenticated)
 			{
-                locationManager.AuthenticateWithApiKey("dee11930-ebff-11e5-8e27-bc305bf60831");
+                locationManager.AuthenticateWithApiKey("__your api key__", BDAuthorizationLevel.Always);
 			}
 			else
 			{
 				updateLog("Already Authenticated");
 			}
-		}
+        }
 
-		private void updateLog(String s)
+		private void updateLog(string s)
 		{
-			String display = StatusLog.Text + "\n" + s;
+            string display = StatusLog.Text + "\n" + s;
 			StatusLog.Text = display;
 		}
 
