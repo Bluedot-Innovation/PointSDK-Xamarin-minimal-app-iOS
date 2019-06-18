@@ -113,16 +113,6 @@ namespace BDPointiOSXamarinDemo
             updateLog("Checked into beacon");
         }
 
-        public void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, bool willCheckOut, NSDictionary customData)
-        {
-            updateLog("Checked into beacon");
-        }
-
-        public void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationCoordinate2D coordinate, NSDate date, bool willCheckOut, NSDictionary customData)
-        {
-            updateLog("Checked into fence");
-        }
-
         public void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
         {
             updateLog("Checked out from beacon");

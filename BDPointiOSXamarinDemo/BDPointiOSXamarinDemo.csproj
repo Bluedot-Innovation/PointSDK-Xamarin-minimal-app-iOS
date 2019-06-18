@@ -133,7 +133,7 @@
       <HintPath>..\packages\Xamarin.Swift4.UIKit.4.2.1.1\lib\xamarinios10\Xamarin.Swift4.UIKit.dll</HintPath>
     </Reference>
     <Reference Include="PointSDK.iOS">
-      <HintPath>..\packages\Bluedot.PointSDK.iOS.1.13.1\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\Bluedot.PointSDK.iOS.1.14.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
