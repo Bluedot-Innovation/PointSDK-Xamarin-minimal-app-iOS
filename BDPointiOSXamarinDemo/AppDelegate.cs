@@ -9,7 +9,7 @@ namespace BDPointiOSXamarinDemo
 	// The UIApplicationDelegate for the application. This class is responsible for launching the
 	// User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
 	[Register("AppDelegate")]
-	public class AppDelegate : UIApplicationDelegate, IBDPSessionDelegate, IBDPLocationDelegate
+	public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
 		
@@ -25,9 +25,8 @@ namespace BDPointiOSXamarinDemo
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-
-            BDLocationManager.Instance.SessionDelegate = this;
-            BDLocationManager.Instance.LocationDelegate = this;
+            BDLocationManager.Instance.SessionDelegate = new SessionDelegate(this);
+            BDLocationManager.Instance.LocationDelegate = new LocationDelegate(this);
 
             return true;
 		}
@@ -65,101 +64,7 @@ namespace BDPointiOSXamarinDemo
 		}
         #endregion
 
-        #region IBDPSessionDelegate
-        public void WillAuthenticateWithApiKey(string apiKey)
-        {
-            updateLog("Authenticating..");
-        }
-
-        public void AuthenticationWasSuccessful()
-        {
-            updateLog("Authentication was successful");
-            updateAuthenticationStatus("Logout");
-        }
-
-        public void AuthenticationWasDeniedWithReason(string reason)
-        {
-            updateLog("Authentication denied");
-            updateAuthenticationStatus("Authenticate");
-        }
-
-        public void AuthenticationFailedWithError(NSError error)
-        {
-            updateLog("Authentication failed");
-            updateAuthenticationStatus("Authenticate");
-        }
-
-        public void DidEndSession()
-        {
-            updateLog("Session ended");
-            updateAuthenticationStatus("Authenticate");
-        }
-
-        public void DidEndSessionWithError(NSError error)
-        {
-            updateLog("Session ended with error");
-            updateAuthenticationStatus("Authenticate");
-        }
-        #endregion
-
-        #region IBDPLocationDelegate
-        public void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationInfo location, bool willCheckOut, NSDictionary customData)
-        {
-            updateLog("Checked into fence");
-        }
-
-        public void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, BDLocationInfo locationInfo, CLProximity proximity, bool willCheckOut, NSDictionary customData)
-        {
-            updateLog("Checked into beacon");
-        }
-
-        public void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
-        {
-            updateLog("Checked out from beacon");
-        }
-
-        public void DidCheckOutFromFence(BDFenceInfo fence, BDZoneInfo zoneInfo, NSDate date, nuint checkedInDuration, NSDictionary customData)
-        {
-            updateLog("Checked out from fence");
-        }
-
-        public void DidStartRequiringUserInterventionForBluetooth()
-        {
-
-        }
-
-        public void DidStartRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
-        {
-
-        }
-
-        public void DidStartRequiringUserInterventionForPowerMode()
-        {
-
-        }
-
-        public void DidStopRequiringUserInterventionForBluetooth()
-        {
-
-        }
-
-        public void DidStopRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
-        {
-
-        }
-
-        public void DidStopRequiringUserInterventionForPowerMode()
-        {
-
-        }
-
-        public void DidUpdateZoneInfo(NSSet zoneInfos)
-        {
-            updateLog("Zone Info updated");
-        }
-        #endregion
-
-        private void updateLog(String s)
+        public void updateLog(String s)
         {
             var viewController = Window.RootViewController as ViewController;
             if (viewController == null)
@@ -170,7 +75,7 @@ namespace BDPointiOSXamarinDemo
             viewController.StatusLog.Text += "\n" + s;
         }
 
-        private void updateAuthenticationStatus(String s)
+        public void updateAuthenticationStatus(String s)
         {
             var viewController = Window.RootViewController as ViewController;
             if (viewController == null)
@@ -179,6 +84,116 @@ namespace BDPointiOSXamarinDemo
             }
 
             viewController.Authenticate.SetTitle(s, UIControlState.Normal);
+        }
+    }
+
+    class SessionDelegate : IBDPSessionDelegate
+    {
+        private readonly AppDelegate _appDelegate;
+
+        public SessionDelegate(AppDelegate app)
+        {
+            _appDelegate = app;
+        }
+
+        public override void AuthenticationFailedWithError(NSError error)
+        {
+            _appDelegate.updateLog("Authentication failed");
+            _appDelegate.updateAuthenticationStatus("Authenticate");
+        }
+
+        public override void AuthenticationWasDeniedWithReason(string reason)
+        {
+            _appDelegate.updateLog("Authentication denied");
+            _appDelegate.updateAuthenticationStatus("Authenticate");
+        }
+
+        public override void AuthenticationWasSuccessful()
+        {
+            _appDelegate.updateLog("Authentication was successful");
+            _appDelegate.updateAuthenticationStatus("Logout");
+        }
+
+        public override void DidEndSession()
+        {
+            _appDelegate.updateLog("Session ended");
+            _appDelegate.updateAuthenticationStatus("Authenticate");
+        }
+
+        public override void DidEndSessionWithError(NSError error)
+        {
+            _appDelegate.updateLog("Session ended with error");
+            _appDelegate.updateAuthenticationStatus("Authenticate");
+        }
+
+        public override void WillAuthenticateWithApiKey(string apiKey)
+        {
+            _appDelegate.updateLog("Authenticating..");
+        }
+    }
+
+    class LocationDelegate : IBDPLocationDelegate
+    {
+        private readonly AppDelegate _appDelegate;
+
+        public LocationDelegate(AppDelegate app)
+        {
+            _appDelegate = app;
+        }
+
+        public override void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, BDLocationInfo locationInfo, CLProximity proximity, bool willCheckOut, NSDictionary customData)
+        {
+            _appDelegate.updateLog("Checked into beacon");
+        }
+
+        public override void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationInfo location, bool willCheckOut, NSDictionary customData)
+        {
+            _appDelegate.updateLog("Checked into fence");
+        }
+
+        public override void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
+        {
+            _appDelegate.updateLog("Checked out from beacon");
+        }
+
+        public override void DidCheckOutFromFence(BDFenceInfo fence, BDZoneInfo zoneInfo, NSDate date, nuint checkedInDuration, NSDictionary customData)
+        {
+            _appDelegate.updateLog("Checked out from fence");
+        }
+
+        public override void DidStartRequiringUserInterventionForBluetooth()
+        {
+            _appDelegate.updateLog("Started requiring user intervention for BT");
+        }
+
+        public override void DidStartRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
+        {
+            _appDelegate.updateLog("Started requiring user intervention for Location services");
+        }
+
+        public override void DidStartRequiringUserInterventionForPowerMode()
+        {
+            _appDelegate.updateLog("Started requiring user intervention for power mode");
+        }
+
+        public override void DidStopRequiringUserInterventionForBluetooth()
+        {
+            _appDelegate.updateLog("Stopped requiring user intervention for BT");
+        }
+
+        public override void DidStopRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
+        {
+            _appDelegate.updateLog("Stopped requiring user intervention for Location services");
+        }
+
+        public override void DidStopRequiringUserInterventionForPowerMode()
+        {
+            _appDelegate.updateLog("Stopped requiring user intervention for Power mode");
+        }
+
+        public override void DidUpdateZoneInfo(NSSet zoneInfos)
+        {
+            _appDelegate.updateLog("Zone info updated");
         }
     }
 }

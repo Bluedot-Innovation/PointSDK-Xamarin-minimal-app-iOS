@@ -51,9 +51,8 @@ namespace BDPointiOSXamarinDemo
              * the app will be notified via the status listener if the Bluedot Point Service started successful.
              * 
              * Parameters
-             * apiKey       The API key generated for your app in the Bluedot Point Access
-             * packageName  The package name of your app created in the Bluedot Point Access
-             * userName     The user name you used to login to the Bluedot Point Access
+             * apiKey               The API key generated for your app in the Bluedot Point Access
+             * authorisationLevel   The location services authorisation level
              */
 			if (locationManager.AuthenticationState != BDAuthenticationState.Authenticated)
 			{
