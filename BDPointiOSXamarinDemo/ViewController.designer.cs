@@ -1,37 +1,66 @@
 // WARNING
 //
-// This file has been generated automatically by Visual Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
 
 namespace BDPointiOSXamarinDemo
 {
-    [Register ("ViewController")]
-    partial class ViewController
-    {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        public UIKit.UIButton Authenticate { get; set; }
+	[Register ("ViewController")]
+	partial class ViewController
+	{
+		[Outlet]
+		UIKit.UIButton initialiseSDKButton { get; set; }
 
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        public UIKit.UITextView StatusLog { get; set; }
+		[Outlet]
+		UIKit.UIButton startGeoTriggeringButton { get; set; }
 
-        void ReleaseDesignerOutlets ()
-        {
-            if (Authenticate != null) {
-                Authenticate.Dispose ();
-                Authenticate = null;
-            }
+		[Outlet]
+		UIKit.UIButton startTempoButton { get; set; }
 
-            if (StatusLog != null) {
-                StatusLog.Dispose ();
-                StatusLog = null;
-            }
-        }
-    }
+		[Outlet]
+		UIKit.UITextView statusLog { get; set; }
+
+		[Outlet]
+		UIKit.UIButton stopGeoTriggeringButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton stopTempoButton { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (initialiseSDKButton != null) {
+				initialiseSDKButton.Dispose ();
+				initialiseSDKButton = null;
+			}
+
+			if (startTempoButton != null) {
+				startTempoButton.Dispose ();
+				startTempoButton = null;
+			}
+
+			if (statusLog != null) {
+				statusLog.Dispose ();
+				statusLog = null;
+			}
+
+			if (stopTempoButton != null) {
+				stopTempoButton.Dispose ();
+				stopTempoButton = null;
+			}
+
+			if (startGeoTriggeringButton != null) {
+				startGeoTriggeringButton.Dispose ();
+				startGeoTriggeringButton = null;
+			}
+
+			if (stopGeoTriggeringButton != null) {
+				stopGeoTriggeringButton.Dispose ();
+				stopGeoTriggeringButton = null;
+			}
+		}
+	}
 }

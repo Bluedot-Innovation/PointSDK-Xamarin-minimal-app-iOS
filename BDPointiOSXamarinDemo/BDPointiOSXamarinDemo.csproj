@@ -132,8 +132,9 @@
     <Reference Include="Xamarin.Swift4.UIKit">
       <HintPath>..\packages\Xamarin.Swift4.UIKit.4.2.1.1\lib\xamarinios10\Xamarin.Swift4.UIKit.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="PointSDK.iOS">
-      <HintPath>..\packages\Bluedot.PointSDK.iOS.15.0.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>packages\Bluedot.PointSDK.iOS.15.4.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -162,4 +163,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Swift4.4.0.0.2\build\Xamarin.Swift4.targets" Condition="Exists('..\packages\Xamarin.Swift4.4.0.0.2\build\Xamarin.Swift4.targets')" />
+  <Import Project="..\packages\Xamarin.Swift.1.0.4\build\xamarinios\Xamarin.Swift.targets" Condition="Exists('..\packages\Xamarin.Swift.1.0.4\build\xamarinios\Xamarin.Swift.targets')" />
+  <Import Project="packages\Xamarin.Swift.1.0.7\build\xamarinios\Xamarin.Swift.targets" Condition="Exists('packages\Xamarin.Swift.1.0.7\build\xamarinios\Xamarin.Swift.targets')" />
 </Project>

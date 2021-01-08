@@ -1,12 +1,15 @@
 ﻿using System;
 using PointSDK.iOS;
 using UIKit;
+using Foundation;
 
 namespace BDPointiOSXamarinDemo
 {
     public partial class ViewController : UIViewController
     {
         BDLocationManager locationManager;
+        public static string projectId = "YourProjectId";
+        public static string destinationId = "YourDestinationId";
 
         protected ViewController(IntPtr handle) : base(handle)
         {
@@ -17,23 +20,39 @@ namespace BDPointiOSXamarinDemo
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
-            updateLog("ViewDidload");
             locationManager = BDLocationManager.Instance;
 
-            Authenticate.TouchUpInside += (o, s) => {
-                if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
-                {
-                    Signout();
-                }
-                else
-                {
-                    StartAuthentication();
-                }
-			};
+            locationManager.RequestAlwaysAuthorization();
+
+            var keys = new object[] { "key1", "key2" };
+            var values = new object[] { "value1", "value2" };
+            var dict = NSDictionary.FromObjectsAndKeys(values, keys);
+
+            locationManager.CustomEventMetaData = dict;
+
+            initialiseSDKButton.TouchUpInside += (o, s) => {
+                InitializeSDK();
+            };
+
+            startGeoTriggeringButton.TouchUpInside += (o, s) => {
+                StartGeoTriggering();
+            };
+
+            stopGeoTriggeringButton.TouchUpInside += (o, s) => {
+                StopGeoTriggering();
+            };
+
+            startTempoButton.TouchUpInside += (o, s) => {
+                StartTempoTracking();
+            };
+
+            stopTempoButton.TouchUpInside += (o, s) => {
+                StopTempoTracking();
+            };
 
         }
 
-		public void Signout()
+        public void Signout()
 		{
 			if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
             {
@@ -41,39 +60,96 @@ namespace BDPointiOSXamarinDemo
 			}
 			else
             {
-				updateLog("Already Logged out");
+				UpdateLog("Already Logged out");
 			}
 		}
 
-		private void StartAuthentication()
+		public void UpdateLog(string s)
 		{
-			/* Start the Bluedot Point Service by providing with the credentials and a ServiceStatusListener, 
-             * the app will be notified via the status listener if the Bluedot Point Service started successful.
-             * 
-             * Parameters
-             * apiKey               The API key generated for your app in the Bluedot Point Access
-             * authorisationLevel   The location services authorisation level
-             */
-			if (locationManager.AuthenticationState != BDAuthenticationState.Authenticated)
-			{
-                locationManager.AuthenticateWithApiKey("__your api key__", BDAuthorizationLevel.Always);
-			}
-			else
-			{
-				updateLog("Already Authenticated");
-			}
-        }
-
-		private void updateLog(string s)
-		{
-            string display = StatusLog.Text + "\n" + s;
-			StatusLog.Text = display;
+            string display = statusLog.Text + "\n" + s;
+			statusLog.Text = display;
 		}
 
 		public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
+        }
+
+        private void InitializeSDK()
+        {
+            if (!locationManager.IsInitialized)
+            {
+                locationManager.InitializeWithProjectId(projectId, (error) => {
+                    if (error != null)
+                    {
+                        UpdateLog("Error initializing SDK: " + error.LocalizedDescription);
+                        return;
+                    }
+
+                    UpdateLog("SDK Initialized");
+                });
+            }
+            else
+            {
+                UpdateLog("SDK already Initialized");
+            }
+        }
+
+        private void StartGeoTriggering()
+        {
+            locationManager.StartGeoTriggeringWithCompletion((error) =>
+            {
+                if (error != null)
+                {
+                    UpdateLog("Error Starting GeoTriggering: " + error.LocalizedDescription);
+                    return;
+                }
+
+                UpdateLog("GeoTriggering Started");
+            });
+        }
+
+        private void StopGeoTriggering()
+        {
+            locationManager.StopGeoTriggeringWithCompletion((error) =>
+            {
+                if (error != null)
+                {
+                    UpdateLog("Error Stopping GeoTriggering: " + error.LocalizedDescription);
+                    return;
+                }
+
+                UpdateLog("GeoTriggering Stopped");
+            });
+        }
+
+        private void StartTempoTracking()
+        {
+            locationManager.StartTempoTrackingWithDestinationId(destinationId, (error) =>
+            {
+                if (error != null)
+                {
+                    UpdateLog("Error Starting Tempo: " + error.LocalizedDescription);
+                    return;
+                }
+
+                UpdateLog("Tempo Started");
+            });
+        }
+
+        private void StopTempoTracking()
+        {
+            locationManager.StopTempoTrackingWithCompletion((error) =>
+            {
+                if (error != null)
+                {
+                    UpdateLog("Error Stopping Tempo: " + error.LocalizedDescription);
+                    return;
+                }
+
+                UpdateLog("Tempo Stopped");
+            });
         }
     }
 }
