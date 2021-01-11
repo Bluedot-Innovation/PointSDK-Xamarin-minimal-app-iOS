@@ -66,7 +66,7 @@ namespace BDPointiOSXamarinDemo
 
 		public void UpdateLog(string s)
 		{
-            string display = statusLog.Text + "\n" + s;
+            string display = s + statusLog.Text + "\n";
 			statusLog.Text = display;
 		}
 

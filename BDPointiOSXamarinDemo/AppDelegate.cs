@@ -2,7 +2,7 @@
 using UIKit;
 using System;
 using PointSDK.iOS;
-using CoreLocation;
+using UserNotifications;
 
 namespace BDPointiOSXamarinDemo
 {
@@ -27,6 +27,9 @@ namespace BDPointiOSXamarinDemo
             // If not required for your application you can safely delete this method
             BDLocationManager.Instance.GeoTriggeringEventDelegate = new GeoTriggeringEventDelegate(this);
             BDLocationManager.Instance.TempoTrackingDelegate = new TempoTrackingDelegate(this);
+
+            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) => {});
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationDelegate();
 
             return true;
 		}
@@ -74,6 +77,22 @@ namespace BDPointiOSXamarinDemo
             viewController.UpdateLog(s);
         }
 
+        public void sendLocalNotification(String title, String message)
+        {
+            // Create content
+            var content = new UNMutableNotificationContent();
+            content.Title = title;
+            content.Body = message;
+
+            // Fire trigger in twenty seconds
+            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
+
+            var requestID = "request" + new Random().ToString();
+            var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
+
+            UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) => {});
+        }
+
     }
 
     class GeoTriggeringEventDelegate : IBDPGeoTriggeringEventDelegate
@@ -92,12 +111,16 @@ namespace BDPointiOSXamarinDemo
 
         public override void DidEnterZone(BDZoneEntryEvent enterEvent)
         {
-            _appDelegate.updateLog("Zone: " + enterEvent.Zone.Name + " Entered");
+            String message = "Zone: " + enterEvent.Zone.Name + " Entered";
+            _appDelegate.updateLog(message);
+            _appDelegate.sendLocalNotification("Entered Zone", message);
         }
 
         public override void DidExitZone(BDZoneExitEvent exitEvent)
         {
-            _appDelegate.updateLog("Zone: " + exitEvent.Zone.Name + " Exited");
+            String message = "Zone: " + exitEvent.Zone.Name + " Exited";
+            _appDelegate.updateLog(message);
+            _appDelegate.sendLocalNotification("Entered Zone", message);
         }
     }
 
@@ -118,6 +141,18 @@ namespace BDPointiOSXamarinDemo
         public override void DidStopTrackingWithError(NSError error)
         {
             _appDelegate.updateLog("DidStopTrackingWithError" + error.LocalizedDescription);
+        }
+    }
+
+    public class UserNotificationDelegate : UNUserNotificationCenterDelegate
+    {
+        public UserNotificationDelegate()
+        {
+        }
+
+        public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        {
+            completionHandler(UNNotificationPresentationOptions.Alert);
         }
     }
 }
