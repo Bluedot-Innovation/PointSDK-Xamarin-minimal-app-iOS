@@ -22,7 +22,7 @@ namespace BDPointiOSXamarinDemo
             // Perform any additional setup after loading the view, typically from a nib.
             locationManager = BDLocationManager.Instance;
 
-            locationManager.RequestAlwaysAuthorization();
+            locationManager.RequestWhenInUseAuthorization();
 
             var keys = new object[] { "key1", "key2" };
             var values = new object[] { "value1", "value2" };
@@ -66,7 +66,7 @@ namespace BDPointiOSXamarinDemo
 
 		public void UpdateLog(string s)
 		{
-            string display = s + statusLog.Text + "\n";
+            string display = DateTime.Now.ToString() + ": " + s + "\n" + statusLog.Text;
 			statusLog.Text = display;
 		}
 
@@ -80,7 +80,8 @@ namespace BDPointiOSXamarinDemo
         {
             if (!locationManager.IsInitialized)
             {
-                locationManager.InitializeWithProjectId(projectId, (error) => {
+                locationManager.InitializeWithProjectId(projectId, (error) =>
+                {
                     if (error != null)
                     {
                         UpdateLog("Error initializing SDK: " + error.LocalizedDescription);
@@ -88,12 +89,14 @@ namespace BDPointiOSXamarinDemo
                     }
 
                     UpdateLog("SDK Initialized");
+                    BDLocationManager.Instance.RequestAlwaysAuthorization();
                 });
             }
             else
             {
                 UpdateLog("SDK already Initialized");
             }
+
         }
 
         private void StartGeoTriggering()
