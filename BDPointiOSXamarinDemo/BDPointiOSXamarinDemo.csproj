@@ -67,7 +67,6 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
-    <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <IOSDebuggerPort>23321</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -111,7 +110,5 @@
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Swift4.4.0.0.2\build\Xamarin.Swift4.targets" Condition="Exists('..\packages\Xamarin.Swift4.4.0.0.2\build\Xamarin.Swift4.targets')" />
-  <Import Project="..\packages\Xamarin.Swift.1.0.4\build\xamarinios\Xamarin.Swift.targets" Condition="Exists('..\packages\Xamarin.Swift.1.0.4\build\xamarinios\Xamarin.Swift.targets')" />
-  <Import Project="packages\Xamarin.Swift.1.0.7\build\xamarinios\Xamarin.Swift.targets" Condition="Exists('packages\Xamarin.Swift.1.0.7\build\xamarinios\Xamarin.Swift.targets')" />
-</Project>
+  <Import Project="packages\Xamarin.iOS.SwiftRuntimeSupport.0.2.0\build\Xamarin.iOS.SwiftRuntimeSupport.targets" Condition="Exists('packages\Xamarin.iOS.SwiftRuntimeSupport.0.2.0\build\Xamarin.iOS.SwiftRuntimeSupport.targets')" />
+  </Project>
