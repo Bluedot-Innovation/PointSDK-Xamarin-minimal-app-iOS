@@ -12,7 +12,9 @@ namespace BDPointiOSXamarinDemo
 	public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-		
+
+        private Random random = new Random();
+
         public override UIWindow Window
 		{
 			get;
@@ -28,7 +30,12 @@ namespace BDPointiOSXamarinDemo
             BDLocationManager.Instance.GeoTriggeringEventDelegate = new GeoTriggeringEventDelegate(this);
             BDLocationManager.Instance.TempoTrackingDelegate = new TempoTrackingDelegate(this);
 
-            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) => {});
+            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) => {
+                if(err != null)
+                {
+                    Console.WriteLine("Error on requesting user notification authorization: " + err.LocalizedDescription);
+                }
+            });
             UNUserNotificationCenter.Current.Delegate = new UserNotificationDelegate();
 
             return true;
@@ -84,10 +91,9 @@ namespace BDPointiOSXamarinDemo
             content.Title = title;
             content.Body = message;
 
-            // Fire trigger in twenty seconds
             var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
 
-            var requestID = "request" + new Random().ToString();
+            var requestID = "request" + random.Next().ToString();
             var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
 
             UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) => {});
@@ -120,7 +126,7 @@ namespace BDPointiOSXamarinDemo
         {
             String message = "Zone: " + exitEvent.Zone.Name + " Exited";
             _appDelegate.updateLog(message);
-            _appDelegate.sendLocalNotification("Entered Zone", message);
+            _appDelegate.sendLocalNotification("Exited Zone", message);
         }
     }
 
