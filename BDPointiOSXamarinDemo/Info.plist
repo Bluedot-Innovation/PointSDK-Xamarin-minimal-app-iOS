@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>au.com.test.XamarinDemo</string>
+	<string>io.bluedot.XamarinMinimalApp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -56,5 +56,7 @@
 	<string>Allow this so that BDPointSampleApp can trigger geofences in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow this so that BDPointSampleApp can trigger geofences in the background.</string>
+	<key>CFBundleDisplayName</key>
+	<string>BDPointiOSXamarinDemo</string>
 </dict>
 </plist>

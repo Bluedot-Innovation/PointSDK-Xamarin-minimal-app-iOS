@@ -2,7 +2,7 @@
 using UIKit;
 using System;
 using PointSDK.iOS;
-using CoreLocation;
+using UserNotifications;
 
 namespace BDPointiOSXamarinDemo
 {
@@ -12,7 +12,9 @@ namespace BDPointiOSXamarinDemo
 	public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-		
+
+        private Random random = new Random();
+
         public override UIWindow Window
 		{
 			get;
@@ -25,8 +27,16 @@ namespace BDPointiOSXamarinDemo
 
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            BDLocationManager.Instance.SessionDelegate = new SessionDelegate(this);
-            BDLocationManager.Instance.LocationDelegate = new LocationDelegate(this);
+            BDLocationManager.Instance.GeoTriggeringEventDelegate = new GeoTriggeringEventDelegate(this);
+            BDLocationManager.Instance.TempoTrackingDelegate = new TempoTrackingDelegate(this);
+
+            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) => {
+                if(err != null)
+                {
+                    Console.WriteLine("Error on requesting user notification authorization: " + err.LocalizedDescription);
+                }
+            });
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationDelegate();
 
             return true;
 		}
@@ -71,129 +81,84 @@ namespace BDPointiOSXamarinDemo
             {
                 return;
             }
-
-            viewController.StatusLog.Text += "\n" + s;
+            viewController.UpdateLog(s);
         }
 
-        public void updateAuthenticationStatus(String s)
+        public void sendLocalNotification(String title, String message)
         {
-            var viewController = Window.RootViewController as ViewController;
-            if (viewController == null)
-            {
-                return;
-            }
+            // Create content
+            var content = new UNMutableNotificationContent();
+            content.Title = title;
+            content.Body = message;
 
-            viewController.Authenticate.SetTitle(s, UIControlState.Normal);
+            var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(1, false);
+
+            var requestID = "request" + random.Next().ToString();
+            var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
+
+            UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) => {});
         }
+
     }
 
-    class SessionDelegate : IBDPSessionDelegate
+    class GeoTriggeringEventDelegate : IBDPGeoTriggeringEventDelegate
     {
         private readonly AppDelegate _appDelegate;
 
-        public SessionDelegate(AppDelegate app)
+        public GeoTriggeringEventDelegate(AppDelegate app)
+        {
+            _appDelegate = app;
+        }
+        
+        public override void OnZoneInfoUpdate(NSSet zoneInfos)
+        {
+            _appDelegate.updateLog("ZoneInfo Updated");
+        }
+
+        public override void DidEnterZone(BDZoneEntryEvent enterEvent)
+        {
+            String message = "Zone: " + enterEvent.Zone.Name + " Entered";
+            _appDelegate.updateLog(message);
+            _appDelegate.sendLocalNotification("Entered Zone", message);
+        }
+
+        public override void DidExitZone(BDZoneExitEvent exitEvent)
+        {
+            String message = "Zone: " + exitEvent.Zone.Name + " Exited";
+            _appDelegate.updateLog(message);
+            _appDelegate.sendLocalNotification("Exited Zone", message);
+        }
+    }
+
+    class TempoTrackingDelegate : IBDPTempoTrackingDelegate
+    {
+        private readonly AppDelegate _appDelegate;
+
+        public TempoTrackingDelegate(AppDelegate app)
         {
             _appDelegate = app;
         }
 
-        public override void AuthenticationFailedWithError(NSError error)
+        public override void TempoTrackingDidExpire()
         {
-            _appDelegate.updateLog("Authentication failed");
-            _appDelegate.updateAuthenticationStatus("Authenticate");
+            _appDelegate.updateLog("TempoTrackingDidExpire");
         }
 
-        public override void AuthenticationWasDeniedWithReason(string reason)
+        public override void DidStopTrackingWithError(NSError error)
         {
-            _appDelegate.updateLog("Authentication denied");
-            _appDelegate.updateAuthenticationStatus("Authenticate");
-        }
-
-        public override void AuthenticationWasSuccessful()
-        {
-            _appDelegate.updateLog("Authentication was successful");
-            _appDelegate.updateAuthenticationStatus("Logout");
-        }
-
-        public override void DidEndSession()
-        {
-            _appDelegate.updateLog("Session ended");
-            _appDelegate.updateAuthenticationStatus("Authenticate");
-        }
-
-        public override void DidEndSessionWithError(NSError error)
-        {
-            _appDelegate.updateLog("Session ended with error");
-            _appDelegate.updateAuthenticationStatus("Authenticate");
-        }
-
-        public override void WillAuthenticateWithApiKey(string apiKey)
-        {
-            _appDelegate.updateLog("Authenticating..");
+            _appDelegate.updateLog("DidStopTrackingWithError" + error.LocalizedDescription);
         }
     }
 
-    class LocationDelegate : IBDPLocationDelegate
+    public class UserNotificationDelegate : UNUserNotificationCenterDelegate
     {
-        private readonly AppDelegate _appDelegate;
-
-        public LocationDelegate(AppDelegate app)
+        public UserNotificationDelegate()
         {
-            _appDelegate = app;
         }
 
-        public override void DidCheckIntoBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, BDLocationInfo locationInfo, CLProximity proximity, bool willCheckOut, NSDictionary customData)
+        public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            _appDelegate.updateLog("Checked into beacon");
-        }
-
-        public override void DidCheckIntoFence(BDFenceInfo fence, BDZoneInfo zoneInfo, BDLocationInfo location, bool willCheckOut, NSDictionary customData)
-        {
-            _appDelegate.updateLog("Checked into fence");
-        }
-
-        public override void DidCheckOutFromBeacon(BDBeaconInfo beacon, BDZoneInfo zoneInfo, CLProximity proximity, NSDate date, nuint checkedInDuration, NSDictionary customData)
-        {
-            _appDelegate.updateLog("Checked out from beacon");
-        }
-
-        public override void DidCheckOutFromFence(BDFenceInfo fence, BDZoneInfo zoneInfo, NSDate date, nuint checkedInDuration, NSDictionary customData)
-        {
-            _appDelegate.updateLog("Checked out from fence");
-        }
-
-        public override void DidStartRequiringUserInterventionForBluetooth()
-        {
-            _appDelegate.updateLog("Started requiring user intervention for BT");
-        }
-
-        public override void DidStartRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
-        {
-            _appDelegate.updateLog("Started requiring user intervention for Location services");
-        }
-
-        public override void DidStartRequiringUserInterventionForPowerMode()
-        {
-            _appDelegate.updateLog("Started requiring user intervention for power mode");
-        }
-
-        public override void DidStopRequiringUserInterventionForBluetooth()
-        {
-            _appDelegate.updateLog("Stopped requiring user intervention for BT");
-        }
-
-        public override void DidStopRequiringUserInterventionForLocationServicesAuthorizationStatus(CLAuthorizationStatus authorizationStatus)
-        {
-            _appDelegate.updateLog("Stopped requiring user intervention for Location services");
-        }
-
-        public override void DidStopRequiringUserInterventionForPowerMode()
-        {
-            _appDelegate.updateLog("Stopped requiring user intervention for Power mode");
-        }
-
-        public override void DidUpdateZoneInfo(NSSet zoneInfos)
-        {
-            _appDelegate.updateLog("Zone info updated");
+            completionHandler(UNNotificationPresentationOptions.Alert);
         }
     }
 }
