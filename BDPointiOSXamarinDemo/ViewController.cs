@@ -8,8 +8,6 @@ namespace BDPointiOSXamarinDemo
     public partial class ViewController : UIViewController
     {
         BDLocationManager locationManager;
-        public static string projectId = "YourProjectId";
-        public static string destinationId = "YourDestinationId";
 
         protected ViewController(IntPtr handle) : base(handle)
         {
@@ -21,8 +19,6 @@ namespace BDPointiOSXamarinDemo
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
             locationManager = BDLocationManager.Instance;
-
-            locationManager.RequestWhenInUseAuthorization();
 
             var keys = new object[] { "key1", "key2" };
             var values = new object[] { "value1", "value2" };
@@ -52,18 +48,6 @@ namespace BDPointiOSXamarinDemo
 
         }
 
-        public void Signout()
-		{
-			if (locationManager.AuthenticationState == BDAuthenticationState.Authenticated)
-            {
-				locationManager.LogOut();
-			}
-			else
-            {
-				UpdateLog("Already Logged out");
-			}
-		}
-
 		public void UpdateLog(string s)
 		{
             string display = DateTime.Now.ToString() + ": " + s + "\n" + statusLog.Text;
@@ -80,7 +64,7 @@ namespace BDPointiOSXamarinDemo
         {
             if (!locationManager.IsInitialized)
             {
-                locationManager.InitializeWithProjectId(projectId, (error) =>
+                locationManager.InitializeWithProjectId(projectIdTextField.Text, (error) =>
                 {
                     if (error != null)
                     {
@@ -129,7 +113,7 @@ namespace BDPointiOSXamarinDemo
 
         private void StartTempoTracking()
         {
-            locationManager.StartTempoTrackingWithDestinationId(destinationId, (error) =>
+            locationManager.StartTempoTrackingWithDestinationId(destinationIdTextFiled.Text, (error) =>
             {
                 if (error != null)
                 {

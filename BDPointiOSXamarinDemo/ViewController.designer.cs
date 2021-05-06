@@ -13,7 +13,13 @@ namespace BDPointiOSXamarinDemo
 	partial class ViewController
 	{
 		[Outlet]
+		UIKit.UITextField destinationIdTextFiled { get; set; }
+
+		[Outlet]
 		UIKit.UIButton initialiseSDKButton { get; set; }
+
+		[Outlet]
+		UIKit.UITextField projectIdTextField { get; set; }
 
 		[Outlet]
 		UIKit.UIButton startGeoTriggeringButton { get; set; }
@@ -32,24 +38,14 @@ namespace BDPointiOSXamarinDemo
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (projectIdTextField != null) {
+				projectIdTextField.Dispose ();
+				projectIdTextField = null;
+			}
+
 			if (initialiseSDKButton != null) {
 				initialiseSDKButton.Dispose ();
 				initialiseSDKButton = null;
-			}
-
-			if (startTempoButton != null) {
-				startTempoButton.Dispose ();
-				startTempoButton = null;
-			}
-
-			if (statusLog != null) {
-				statusLog.Dispose ();
-				statusLog = null;
-			}
-
-			if (stopTempoButton != null) {
-				stopTempoButton.Dispose ();
-				stopTempoButton = null;
 			}
 
 			if (startGeoTriggeringButton != null) {
@@ -60,6 +56,26 @@ namespace BDPointiOSXamarinDemo
 			if (stopGeoTriggeringButton != null) {
 				stopGeoTriggeringButton.Dispose ();
 				stopGeoTriggeringButton = null;
+			}
+
+			if (destinationIdTextFiled != null) {
+				destinationIdTextFiled.Dispose ();
+				destinationIdTextFiled = null;
+			}
+
+			if (startTempoButton != null) {
+				startTempoButton.Dispose ();
+				startTempoButton = null;
+			}
+
+			if (stopTempoButton != null) {
+				stopTempoButton.Dispose ();
+				stopTempoButton = null;
+			}
+
+			if (statusLog != null) {
+				statusLog.Dispose ();
+				statusLog = null;
 			}
 		}
 	}
