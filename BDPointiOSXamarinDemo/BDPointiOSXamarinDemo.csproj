@@ -27,20 +27,29 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision></CodesignProvision>
+    <MtouchSdkVersion></MtouchSdkVersion>
+    <MtouchUseLlvm></MtouchUseLlvm>
+    <CodesignResourceRules></CodesignResourceRules>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Distribution: Bluedot Innovation Pty Ltd (9H7C75E224)</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>match AdHoc io.bluedot.*</CodesignProvision>
+    <DeviceSpecificBuild></DeviceSpecificBuild>
+    <MtouchDebug>false</MtouchDebug>
+    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -54,6 +63,7 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,15 +84,15 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="PointSDK.iOS">
-      <HintPath>packages\Bluedot.PointSDK.iOS.15.4.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>packages\Bluedot.PointSDK.iOS.15.5.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
