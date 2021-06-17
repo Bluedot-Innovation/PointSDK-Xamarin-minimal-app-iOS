@@ -28,7 +28,6 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <CodesignProvision></CodesignProvision>
-    <MtouchSdkVersion></MtouchSdkVersion>
     <MtouchUseLlvm></MtouchUseLlvm>
     <CodesignResourceRules></CodesignResourceRules>
     <LangVersion>latestmajor</LangVersion>
@@ -92,7 +91,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="PointSDK.iOS">
-      <HintPath>packages\Bluedot.PointSDK.iOS.15.5.0\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>packages\Bluedot.PointSDK.iOS.15.5.1\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
