@@ -83,7 +83,7 @@
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="PointSDK.iOS">
-      <HintPath>packages\Bluedot.PointSDK.iOS.15.5.2\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>packages\Bluedot.PointSDK.iOS.15.5.1\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
