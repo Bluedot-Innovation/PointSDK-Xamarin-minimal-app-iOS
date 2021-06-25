@@ -1,8 +1,10 @@
 #!/bin/bash
-APP_IPA="$1"
-IPA="$2"
-ARCHIVE_PATH="$3"
+APP_IPA="${APPCENTER_OUTPUT_DIRECTORY}/BDPointiOSXamarinDemo.ipa"
+IPA="${APPCENTER_OUTPUT_DIRECTORY}/BDPointiOSXamarinDemo.ipa"
 TEMP_IPA_BUILT="/tmp/ipabuild"
+
+echo "APP_IPA = ${APP_IPA}"
+echo "IPA = ${IPA}" 
 
 DEVELOPER_DIR=`xcode-select --print-path`
 if [ ! -d "${DEVELOPER_DIR}" ]; then
@@ -10,25 +12,25 @@ if [ ! -d "${DEVELOPER_DIR}" ]; then
 	exit 1
 fi
 
-echo "+ Packaging ${APP} into ${IPA}"
+echo "+ Packaging SwiftSupport into ${IPA}"
 
-if [ -f "${IPA}" ];
-then
+if [ -f "${IPA}" ] && [ "${IPA}" != "${APP_IPA}" ]; then
     /bin/rm "${IPA}"
 fi    
-if [ -d "${TEMP_IPA_BUILT}" ];
-then
+if [ -d "${TEMP_IPA_BUILT}" ]; then
     rm -rf "${TEMP_IPA_BUILT}"
 fi
 
 echo "+ Unzip ipa content"
 unzip -q "$APP_IPA" -d "$TEMP_IPA_BUILT"
 
-echo "+ Create SwiftSupport folder"
+echo "+ Adding SWIFT support"
 mkdir -p "${TEMP_IPA_BUILT}/SwiftSupport"
-
-echo "+ Copy SwiftSupport libraries"
-cp -R "${ARCHIVE_PATH}/SwiftSupport/iphoneos" "${TEMP_IPA_BUILT}/SwiftSupport/iphoneos"
+cd "${TEMP_IPA_BUILT}/Payload/BDPointiOSXamarinDemo.app/Frameworks/"    
+for SWIFT_LIB in libswift*.dylib; do
+    echo "Copying ${SWIFT_LIB}"
+    cp $SWIFT_LIB "${TEMP_IPA_BUILT}/SwiftSupport"
+done
 
 echo "+ zip --symlinks --verbose --recurse-paths ${IPA} ."
 cd "${TEMP_IPA_BUILT}"
