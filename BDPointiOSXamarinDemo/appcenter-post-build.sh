@@ -3,14 +3,12 @@ APP_IPA="${APPCENTER_OUTPUT_DIRECTORY}/BDPointiOSXamarinDemo.ipa"
 IPA="${APPCENTER_OUTPUT_DIRECTORY}/BDPointiOSXamarinDemo.ipa"
 TEMP_IPA_BUILT="/tmp/ipabuild"
 
-echo "APP_IPA = ${APP_IPA}"
-echo "IPA = ${IPA}" 
-
 DEVELOPER_DIR=`xcode-select --print-path`
 if [ ! -d "${DEVELOPER_DIR}" ]; then
 	echo "No developer directory found!"
 	exit 1
 fi
+SWIFT_LIB_DIR="${DEVELOPER_DIR}/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/iphoneos"
 
 echo "+ Packaging SwiftSupport into ${IPA}"
 
@@ -28,8 +26,8 @@ echo "+ Adding SWIFT support"
 mkdir -p "${TEMP_IPA_BUILT}/SwiftSupport"
 cd "${TEMP_IPA_BUILT}/Payload/BDPointiOSXamarinDemo.app/Frameworks/"    
 for SWIFT_LIB in libswift*.dylib; do
-    echo "Copying ${SWIFT_LIB}"
-    cp $SWIFT_LIB "${TEMP_IPA_BUILT}/SwiftSupport"
+    echo "Copying ${SWIFT_LIB_DIR}/${SWIFT_LIB}"
+    cp "${SWIFT_LIB_DIR}/${SWIFT_LIB}" "${TEMP_IPA_BUILT}/SwiftSupport"
 done
 
 echo "+ zip --symlinks --verbose --recurse-paths ${IPA} ."
