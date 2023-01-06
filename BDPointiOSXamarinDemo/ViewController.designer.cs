@@ -13,6 +13,9 @@ namespace BDPointiOSXamarinDemo
 	partial class ViewController
 	{
 		[Outlet]
+		UIKit.UILabel appVersionLabel { get; set; }
+
+		[Outlet]
 		UIKit.UITextField destinationIdTextFiled { get; set; }
 
 		[Outlet]
@@ -20,6 +23,9 @@ namespace BDPointiOSXamarinDemo
 
 		[Outlet]
 		UIKit.UITextField projectIdTextField { get; set; }
+
+		[Outlet]
+		UIKit.UILabel sdkVersionLabel { get; set; }
 
 		[Outlet]
 		UIKit.UIButton startGeoTriggeringButton { get; set; }
@@ -38,9 +44,9 @@ namespace BDPointiOSXamarinDemo
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (projectIdTextField != null) {
-				projectIdTextField.Dispose ();
-				projectIdTextField = null;
+			if (destinationIdTextFiled != null) {
+				destinationIdTextFiled.Dispose ();
+				destinationIdTextFiled = null;
 			}
 
 			if (initialiseSDKButton != null) {
@@ -48,19 +54,14 @@ namespace BDPointiOSXamarinDemo
 				initialiseSDKButton = null;
 			}
 
+			if (projectIdTextField != null) {
+				projectIdTextField.Dispose ();
+				projectIdTextField = null;
+			}
+
 			if (startGeoTriggeringButton != null) {
 				startGeoTriggeringButton.Dispose ();
 				startGeoTriggeringButton = null;
-			}
-
-			if (stopGeoTriggeringButton != null) {
-				stopGeoTriggeringButton.Dispose ();
-				stopGeoTriggeringButton = null;
-			}
-
-			if (destinationIdTextFiled != null) {
-				destinationIdTextFiled.Dispose ();
-				destinationIdTextFiled = null;
 			}
 
 			if (startTempoButton != null) {
@@ -68,14 +69,29 @@ namespace BDPointiOSXamarinDemo
 				startTempoButton = null;
 			}
 
+			if (statusLog != null) {
+				statusLog.Dispose ();
+				statusLog = null;
+			}
+
+			if (stopGeoTriggeringButton != null) {
+				stopGeoTriggeringButton.Dispose ();
+				stopGeoTriggeringButton = null;
+			}
+
 			if (stopTempoButton != null) {
 				stopTempoButton.Dispose ();
 				stopTempoButton = null;
 			}
 
-			if (statusLog != null) {
-				statusLog.Dispose ();
-				statusLog = null;
+			if (sdkVersionLabel != null) {
+				sdkVersionLabel.Dispose ();
+				sdkVersionLabel = null;
+			}
+
+			if (appVersionLabel != null) {
+				appVersionLabel.Dispose ();
+				appVersionLabel = null;
 			}
 		}
 	}

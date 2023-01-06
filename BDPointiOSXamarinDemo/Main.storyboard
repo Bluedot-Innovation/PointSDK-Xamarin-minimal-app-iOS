@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="986-sB-4Sd">
-                                <rect key="frame" x="15" y="44" width="384" height="817"/>
+                                <rect key="frame" x="15" y="48" width="384" height="778"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your ProjectId here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a43-yZ-36g">
                                         <rect key="frame" x="0.0" y="0.0" width="384" height="34"/>
@@ -59,26 +59,48 @@
                                         </state>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2192">
-                                        <rect key="frame" x="0.0" y="393" width="384" height="424"/>
+                                        <rect key="frame" x="0.0" y="393" width="384" height="385"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dBx-Ok-Gh5" userLabel="Version Stack View">
+                                <rect key="frame" x="20" y="826" width="374" height="36"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App: " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suP-G0-Fg3">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SDK:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e21-e5-I3J">
+                                        <rect key="frame" x="0.0" y="18" width="374" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="dBx-Ok-Gh5" firstAttribute="top" secondItem="986-sB-4Sd" secondAttribute="bottom" id="372-hG-U3h"/>
                             <constraint firstItem="986-sB-4Sd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3SA-1b-f1C"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="986-sB-4Sd" secondAttribute="bottom" constant="1" id="EXA-Bi-7Ob"/>
                             <constraint firstItem="986-sB-4Sd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="Ltn-gy-gRo"/>
+                            <constraint firstItem="dBx-Ok-Gh5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Nzh-ad-6i6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dBx-Ok-Gh5" secondAttribute="trailing" id="Z6e-cf-yeO"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dBx-Ok-Gh5" secondAttribute="bottom" id="f9S-B2-L60"/>
                             <constraint firstItem="986-sB-4Sd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-5" id="g34-V9-Z5x"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="appVersionLabel" destination="suP-G0-Fg3" id="bQz-yl-67Z"/>
                         <outlet property="destinationIdTextFiled" destination="XnO-Se-i4T" id="LSv-PW-dH4"/>
                         <outlet property="initialiseSDKButton" destination="3758" id="name-outlet-3758"/>
                         <outlet property="projectIdTextField" destination="a43-yZ-36g" id="v8t-hf-N6o"/>
+                        <outlet property="sdkVersionLabel" destination="e21-e5-I3J" id="yO9-Ew-Fus"/>
                         <outlet property="startGeoTriggeringButton" destination="AvU-lP-l8Y" id="xsD-z9-yXe"/>
                         <outlet property="startTempoButton" destination="3960" id="name-outlet-3960"/>
                         <outlet property="statusLog" destination="2192" id="name-outlet-2192"/>
