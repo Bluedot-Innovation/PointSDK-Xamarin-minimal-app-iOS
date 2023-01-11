@@ -2,6 +2,8 @@
 using PointSDK.iOS;
 using UIKit;
 using Foundation;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BDPointiOSXamarinDemo
 {
@@ -23,6 +25,7 @@ namespace BDPointiOSXamarinDemo
             var keys = new object[] { "key1", "key2" };
             var values = new object[] { "value1", "value2" };
             var dict = NSDictionary.FromObjectsAndKeys(values, keys);
+            updateVersionLabels();
 
             locationManager.CustomEventMetaData = dict;
 
@@ -83,6 +86,14 @@ namespace BDPointiOSXamarinDemo
 
         }
 
+        private void updateVersionLabels()
+        {
+            var appVersion = NSBundle.MainBundle.InfoDictionary[new NSString("CFBundleShortVersionString")].ToString();
+            var buildNumber = NSBundle.MainBundle.InfoDictionary[new NSString("CFBundleVersion")].ToString();
+            appVersionLabel.Text = "App: " + appVersion + "(" + buildNumber + ")";
+            sdkVersionLabel.Text = "SDK: " + locationManager.SdkVersion();
+        }
+
         private void StartGeoTriggering()
         {
             locationManager.StartGeoTriggeringWithCompletion((error) =>
@@ -113,6 +124,13 @@ namespace BDPointiOSXamarinDemo
 
         private void StartTempoTracking()
         {
+            // Set custom metadata with random order id before starting tempo
+            var metadata = new NSMutableDictionary<NSString, NSString>();
+            var orderId = RandomString(6);
+            metadata.SetValueForKey(orderId, new NSString("hs_OrderId"));
+            metadata.SetValueForKey(new NSString("Testing"), new NSString("hs_CustomerName"));
+            locationManager.CustomEventMetaData = metadata;
+
             locationManager.StartTempoTrackingWithDestinationId(destinationIdTextFiled.Text, (error) =>
             {
                 if (error != null)
@@ -121,7 +139,7 @@ namespace BDPointiOSXamarinDemo
                     return;
                 }
 
-                UpdateLog("Tempo Started");
+                UpdateLog("Tempo Started With Order Id: " + orderId);
             });
         }
 
@@ -137,6 +155,16 @@ namespace BDPointiOSXamarinDemo
 
                 UpdateLog("Tempo Stopped");
             });
+        }
+
+        private static Random random = new Random();
+
+        private static NSString RandomString(int length)
+        {
+            const string chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+            var randomString = new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            return new NSString(randomString);
         }
     }
 }
