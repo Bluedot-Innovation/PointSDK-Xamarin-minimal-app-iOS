@@ -33,6 +33,10 @@ namespace BDPointiOSXamarinDemo
                 InitializeSDK();
             };
 
+            resetSDKButton.TouchUpInside += (o, s) => {
+                ResetSDK();
+            };
+
             startGeoTriggeringButton.TouchUpInside += (o, s) => {
                 StartGeoTriggering();
             };
@@ -84,6 +88,27 @@ namespace BDPointiOSXamarinDemo
                 UpdateLog("SDK already Initialized");
             }
 
+        }
+
+        private void ResetSDK()
+        {
+            if (locationManager.IsInitialized)
+            {
+                locationManager.ResetWithCompletion(error =>
+            {
+                if (error != null)
+                {
+                    UpdateLog("Error resetting SDK: " + error.LocalizedDescription);
+                }
+                else
+                {
+                    UpdateLog("SDK resetted");
+                };
+            });
+            } else
+            {
+                UpdateLog("SDK not initialized");
+            };
         }
 
         private void updateVersionLabels()

@@ -25,6 +25,9 @@ namespace BDPointiOSXamarinDemo
 		UIKit.UITextField projectIdTextField { get; set; }
 
 		[Outlet]
+		UIKit.UIButton resetSDKButton { get; set; }
+
+		[Outlet]
 		UIKit.UILabel sdkVersionLabel { get; set; }
 
 		[Outlet]
@@ -44,6 +47,11 @@ namespace BDPointiOSXamarinDemo
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (appVersionLabel != null) {
+				appVersionLabel.Dispose ();
+				appVersionLabel = null;
+			}
+
 			if (destinationIdTextFiled != null) {
 				destinationIdTextFiled.Dispose ();
 				destinationIdTextFiled = null;
@@ -54,9 +62,19 @@ namespace BDPointiOSXamarinDemo
 				initialiseSDKButton = null;
 			}
 
+			if (resetSDKButton != null) {
+				resetSDKButton.Dispose ();
+				resetSDKButton = null;
+			}
+
 			if (projectIdTextField != null) {
 				projectIdTextField.Dispose ();
 				projectIdTextField = null;
+			}
+
+			if (sdkVersionLabel != null) {
+				sdkVersionLabel.Dispose ();
+				sdkVersionLabel = null;
 			}
 
 			if (startGeoTriggeringButton != null) {
@@ -82,16 +100,6 @@ namespace BDPointiOSXamarinDemo
 			if (stopTempoButton != null) {
 				stopTempoButton.Dispose ();
 				stopTempoButton = null;
-			}
-
-			if (sdkVersionLabel != null) {
-				sdkVersionLabel.Dispose ();
-				sdkVersionLabel = null;
-			}
-
-			if (appVersionLabel != null) {
-				appVersionLabel.Dispose ();
-				appVersionLabel = null;
 			}
 		}
 	}

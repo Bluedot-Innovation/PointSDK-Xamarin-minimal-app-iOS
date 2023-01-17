@@ -33,33 +33,39 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvU-lP-l8Y">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fix-je-A7w">
                                         <rect key="frame" x="0.0" y="114" width="384" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Reset SDK"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AvU-lP-l8Y">
+                                        <rect key="frame" x="0.0" y="169" width="384" height="30"/>
                                         <state key="normal" title="Start GeoTriggering"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gux-dL-Qyf">
-                                        <rect key="frame" x="0.0" y="169" width="384" height="30"/>
+                                        <rect key="frame" x="0.0" y="224" width="384" height="30"/>
                                         <state key="normal" title="Stop GeoTriggering"/>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter destinationId to start Tempo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XnO-Se-i4T">
-                                        <rect key="frame" x="0.0" y="224" width="384" height="34"/>
+                                        <rect key="frame" x="0.0" y="279" width="384" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3960">
-                                        <rect key="frame" x="0.0" y="283" width="384" height="30"/>
+                                        <rect key="frame" x="0.0" y="338" width="384" height="30"/>
                                         <state key="normal" title="Start Tempo">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5158">
-                                        <rect key="frame" x="0.0" y="338" width="384" height="30"/>
+                                        <rect key="frame" x="0.0" y="393" width="384" height="30"/>
                                         <state key="normal" title="Stop Tempo">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2192">
-                                        <rect key="frame" x="0.0" y="393" width="384" height="385"/>
+                                        <rect key="frame" x="0.0" y="448" width="384" height="330"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -100,6 +106,7 @@
                         <outlet property="destinationIdTextFiled" destination="XnO-Se-i4T" id="LSv-PW-dH4"/>
                         <outlet property="initialiseSDKButton" destination="3758" id="name-outlet-3758"/>
                         <outlet property="projectIdTextField" destination="a43-yZ-36g" id="v8t-hf-N6o"/>
+                        <outlet property="resetSDKButton" destination="fix-je-A7w" id="PhK-Fy-KzR"/>
                         <outlet property="sdkVersionLabel" destination="e21-e5-I3J" id="yO9-Ew-Fus"/>
                         <outlet property="startGeoTriggeringButton" destination="AvU-lP-l8Y" id="xsD-z9-yXe"/>
                         <outlet property="startTempoButton" destination="3960" id="name-outlet-3960"/>
