@@ -3,6 +3,7 @@ using UIKit;
 using System;
 using PointSDK.iOS;
 using UserNotifications;
+using System.Threading;
 
 namespace BDPointiOSXamarinDemo
 {
@@ -68,10 +69,36 @@ namespace BDPointiOSXamarinDemo
 			// If the application was previously in the background, optionally refresh the user interface.
 		}
 
-		public override void WillTerminate(UIApplication application)
-		{
-			// Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
-		}
+        public override void WillTerminate(UIApplication application)
+        {
+            // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+
+            // Attempt to stop Tempo before app is terminated by the user.
+            // Apple doc says app has approximately 5 seconds (https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623111-applicationwillterminate) but it really depends on the hardware, OS, system resources at the time
+            // Waiting or processing too long in `applicationWillTerminate` increases the risk of app being terminated by the OS.
+            // Note that this function is only called by the OS when user swipes kill the app. Other cases (crash, device reboot) the OS will not call this function.
+            StopTempoIfRunning();
+
+            // or you can schedule a local notification encouraging user to re-launch the app to track their order.
+            // Upon relaunching, you can initialize PointSDK, startGeoTriggering and startTempo again to get ETA updates for their order.
+        }
+
+        public void StopTempoIfRunning()
+        {
+            if (BDLocationManager.Instance.IsTempoRunning)
+            {
+                var semp = new SemaphoreSlim(0);
+                BDLocationManager.Instance.StopTempoTrackingWithCompletion((NSError obj) =>
+                {
+                    semp.Release();
+                });
+
+                // Wait for a bit to make sure stopTempo can execute. Under normal network connection, 1-2 seconds should be enough.
+                // Note: calling sepaphore.wait() will block the main thread. Blocking main thread for too long can also cause the app process be killed by the OS.
+                semp.Wait(1000);
+            }
+        }
+
         #endregion
 
         public void updateLog(String s)
