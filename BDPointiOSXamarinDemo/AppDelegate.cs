@@ -113,7 +113,8 @@ namespace BDPointiOSXamarinDemo
         public override void DidUpdateZoneInfo()
         {
             // ZoneInfos is no longer passed via the callback, access it via BDLocationManager.Instance.ZoneInfos
-            _appDelegate.updateLog("ZoneInfo Updated: " + BDLocationManager.Instance.ZoneInfos.Description);
+            // BDLocationManager.Instance.ZoneInfos can be null when calling SDK's reset method, don't forget to check null
+            _appDelegate.updateLog("ZoneInfo Updated: " + (BDLocationManager.Instance.ZoneInfos != null ? BDLocationManager.Instance.ZoneInfos.Description : " empty"));
         }
 
         public override void DidEnterZone(GeoTriggerEvent enterEvent)
