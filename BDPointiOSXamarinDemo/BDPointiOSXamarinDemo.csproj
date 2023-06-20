@@ -24,7 +24,7 @@
     <MtouchFastDev>true</MtouchFastDev>
     <IOSDebuggerPort>43153</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
@@ -72,9 +72,9 @@
     <CodesignEntitlements></CodesignEntitlements>
     <IOSDebuggerPort>23321</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <CodesignProvision>Automatic</CodesignProvision>
   </PropertyGroup>
@@ -85,7 +85,7 @@
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System.Drawing.Common.dll" />
     <Reference Include="PointSDK.iOS">
-      <HintPath>packages\Bluedot.PointSDK.iOS.15.6.6\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
+      <HintPath>packages\Bluedot.PointSDK.iOS.16.0.0-rc4\lib\xamarinios10\PointSDK.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

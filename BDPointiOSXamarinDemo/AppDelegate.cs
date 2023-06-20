@@ -109,22 +109,24 @@ namespace BDPointiOSXamarinDemo
         {
             _appDelegate = app;
         }
-        
-        public override void OnZoneInfoUpdate(NSSet zoneInfos)
+
+        public override void DidUpdateZoneInfo()
         {
-            _appDelegate.updateLog("ZoneInfo Updated");
+            // ZoneInfos is no longer passed via the callback, access it via BDLocationManager.Instance.ZoneInfos
+            // BDLocationManager.Instance.ZoneInfos can be null when calling SDK's reset method, don't forget to check null
+            _appDelegate.updateLog("ZoneInfo Updated: " + (BDLocationManager.Instance.ZoneInfos != null ? BDLocationManager.Instance.ZoneInfos.Description : " empty"));
         }
 
-        public override void DidEnterZone(BDZoneEntryEvent enterEvent)
+        public override void DidEnterZone(GeoTriggerEvent enterEvent)
         {
-            String message = "Zone: " + enterEvent.Zone.Name + " Entered";
+            String message = "Zone: " + enterEvent.ZoneInfo.Name + " Entered";
             _appDelegate.updateLog(message);
             _appDelegate.sendLocalNotification("Entered Zone", message);
         }
 
-        public override void DidExitZone(BDZoneExitEvent exitEvent)
+        public override void DidExitZone(GeoTriggerEvent exitEvent)
         {
-            String message = "Zone: " + exitEvent.Zone.Name + " Exited";
+            String message = "Zone: " + exitEvent.ZoneInfo.Name + " Exited";
             _appDelegate.updateLog(message);
             _appDelegate.sendLocalNotification("Exited Zone", message);
         }
@@ -137,6 +139,11 @@ namespace BDPointiOSXamarinDemo
         public TempoTrackingDelegate(AppDelegate app)
         {
             _appDelegate = app;
+        }
+
+        public override void TempoTrackingDidUpdate(TempoTrackingUpdate tempoUpdate)
+        {
+            _appDelegate.updateLog("TempoTrackingDidUpdate: " + tempoUpdate.Description);
         }
 
         public override void TempoTrackingDidExpire()
